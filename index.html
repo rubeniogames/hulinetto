@@ -5,66 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>KHL / VHL Web App</title>
   <style>
-    :root {
-      --bg: #0b1220;
-      --card: #131d33;
-      --line: #23314f;
-      --text: #e9eef9;
-      --muted: #99a7c2;
-      --accent: #34c3ff;
-      --danger: #ff6262;
-      --ok: #33d17a;
-    }
+    :root { --bg:#0b1220; --card:#131d33; --line:#23314f; --text:#e9eef9; --muted:#99a7c2; --accent:#34c3ff; --ok:#33d17a; }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-    .container { max-width: 920px; margin: 0 auto; padding: 16px; }
-    .title { font-size: 24px; font-weight: 800; margin-bottom: 2px; }
-    .subtitle { color: var(--muted); margin-bottom: 14px; }
-    .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
-    .tab {
-      background: var(--card);
-      color: var(--text);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 12px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .tab.active { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(52,195,255,0.2) inset; }
-    .screen { display: none; }
-    .screen.active { display: block; }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 12px;
-    }
-    .card h2 { margin: 0 0 10px; font-size: 18px; }
-    .meta { color: var(--muted); font-size: 13px; }
-    .status-live { color: var(--ok); font-weight: 700; }
-    .status-finished { color: var(--danger); font-weight: 700; }
-    .match { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); }
-    .match:first-child { border-top: 0; padding-top: 0; }
-    .teams { font-weight: 600; }
-    .score { font-weight: 800; }
-    .empty { color: var(--muted); }
-    .article { padding: 10px 0; border-top: 1px solid var(--line); }
-    .article:first-child { border-top: 0; padding-top: 0; }
-    .article-title { font-weight: 700; margin-bottom: 4px; }
-    .article-date { color: var(--muted); font-size: 12px; margin-bottom: 6px; }
-    .small { font-size: 12px; color: var(--muted); }
+    body { margin:0; font-family:Inter,system-ui,Arial,sans-serif; background:var(--bg); color:var(--text); }
+    .container { max-width:920px; margin:0 auto; padding:16px; }
+    .title { font-size:24px; font-weight:800; }
+    .subtitle { color:var(--muted); margin:2px 0 14px; }
+    .tabs { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px; }
+    .tab { background:var(--card); border:1px solid var(--line); color:var(--text); border-radius:12px; padding:12px; font-weight:700; cursor:pointer; }
+    .tab.active { border-color:var(--accent); box-shadow:0 0 0 2px rgba(52,195,255,.2) inset; }
+    .screen { display:none; } .screen.active { display:block; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:12px; }
+    .card h2 { margin:0 0 10px; font-size:18px; }
+    .meta { color:var(--muted); font-size:13px; }
+    .match { display:grid; grid-template-columns:1fr auto; gap:10px; padding:10px 0; border-top:1px solid var(--line); }
+    .match:first-child { border-top:0; padding-top:0; }
+    .teams { font-weight:600; }
+    .score { font-weight:800; }
+    .empty { color:var(--muted); }
+    .article { padding:10px 0; border-top:1px solid var(--line); }
+    .article:first-child { border-top:0; padding-top:0; }
+    .article-title { font-weight:700; margin-bottom:4px; }
+    .article-date, .small { color:var(--muted); font-size:12px; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="title">Новости КХЛ и ВХЛ</div>
-    <div class="subtitle">MSK · live-обновление каждые 15 секунд</div>
+    <div class="subtitle">Источник: основной сайт КХЛ · live: 15 сек · расписание: 12 часов</div>
 
     <div class="tabs">
       <button class="tab active" data-tab="home">Главная</button>
@@ -93,187 +61,210 @@
     <section id="about" class="screen">
       <div class="card">
         <h2>О нас</h2>
-        <p>Это Telegram Web App для оперативного освещения КХЛ и ВХЛ.</p>
-        <p>Показываем матчи, которые идут прямо сейчас, и расписание на завтра.</p>
-        <p>Время отображается по Москве (MSK).</p>
+        <p>Telegram Web App по новостям КХЛ/ВХЛ.</p>
+        <p>Текущие матчи обновляются раз в 15 секунд.</p>
+        <p>Матчи, которые еще не начались (завтра), обновляются раз в 12 часов.</p>
       </div>
-      <div class="small">Источники данных: публичный API SofaScore + статьи из репозитория (articles.txt).</div>
+      <div class="small">Данные матчей берутся с основного сайта КХЛ (через бесплатный CORS proxy).</div>
     </section>
   </div>
 
-  <script>
-    const TARGET_LEAGUES = ['khl', 'вхл', 'vhl'];
-    const LIVE_TYPES = new Set(['inprogress', '1st_period', '2nd_period', '3rd_period', 'overtime', 'after_penalties', 'break']);
-    const API_BASE = 'https://www.sofascore.com/api/v1/sport/ice-hockey/scheduled-events/';
+<script>
+  const PROXY = 'https://api.allorigins.win/raw?url=';
+  const LIVE_REFRESH_MS = 15000;
+  const UPCOMING_TTL_MS = 12 * 60 * 60 * 1000;
 
-    function moscowTime(ts) {
-      return new Intl.DateTimeFormat('ru-RU', {
-        timeZone: 'Europe/Moscow',
-        hour: '2-digit',
-        minute: '2-digit'
-      }).format(new Date(ts * 1000));
-    }
+  function esc(v) {
+    return String(v ?? '').replace(/[&<>"']/g, (s) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[s]));
+  }
 
-    function ymd(d) {
-      return d.toISOString().slice(0, 10);
-    }
+  function ymd(d) { return d.toISOString().slice(0, 10); }
+  function moscowTime(isoOrTs) {
+    const date = typeof isoOrTs === 'number' ? new Date(isoOrTs * 1000) : new Date(isoOrTs);
+    return new Intl.DateTimeFormat('ru-RU', { timeZone: 'Europe/Moscow', hour: '2-digit', minute: '2-digit' }).format(date);
+  }
 
-    function byLeague(event) {
-      const names = [
-        event?.tournament?.name,
-        event?.tournament?.uniqueTournament?.name,
-        event?.season?.name,
-      ].filter(Boolean).join(' ').toLowerCase();
-      return TARGET_LEAGUES.some((key) => names.includes(key));
-    }
+  function khlCalendarUrl(dateObj) {
+    const y = dateObj.getUTCFullYear();
+    const m = String(dateObj.getUTCMonth() + 1).padStart(2, '0');
+    const d = String(dateObj.getUTCDate()).padStart(2, '0');
+    return `https://www.khl.ru/calendar/${y}/${m}/${d}/`;
+  }
 
-    function scoreText(event) {
-      const hs = event?.homeScore?.current;
-      const as = event?.awayScore?.current;
-      if (Number.isFinite(hs) && Number.isFinite(as)) return `${hs}:${as}`;
-      return '—';
-    }
+  async function fetchKhlHtml(dateObj) {
+    const url = khlCalendarUrl(dateObj);
+    const res = await fetch(PROXY + encodeURIComponent(url), { cache: 'no-store' });
+    if (!res.ok) throw new Error('khl_fetch_error');
+    return res.text();
+  }
 
-    function matchRow(event) {
-      const statusType = event?.status?.type || '';
-      const statusText = event?.status?.description || statusType || 'scheduled';
-      return `
-        <div class="match">
-          <div>
-            <div class="teams">${esc(event.homeTeam?.name)} — ${esc(event.awayTeam?.name)}</div>
-            <div class="meta">${esc(statusText)} · ${moscowTime(event.startTimestamp)} МСК</div>
-          </div>
-          <div class="score">${esc(scoreText(event))}</div>
-        </div>
-      `;
-    }
+  function normalizeJsonLd(obj) {
+    if (!obj) return [];
+    if (Array.isArray(obj)) return obj.flatMap(normalizeJsonLd);
+    if (obj['@graph']) return normalizeJsonLd(obj['@graph']);
+    return [obj];
+  }
 
-    function esc(v) {
-      return String(v ?? '').replace(/[&<>"']/g, (s) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[s]));
-    }
+  function parseKhlMatchesFromHtml(html) {
+    const matches = [];
+    const scriptRegex = /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+    const chunks = [...html.matchAll(scriptRegex)].map((m) => m[1]).filter(Boolean);
 
-    async function fetchEvents(dateStr) {
-      const res = await fetch(API_BASE + dateStr, { cache: 'no-store' });
-      if (!res.ok) throw new Error('api');
-      const data = await res.json();
-      return (data.events || []).filter(byLeague);
-    }
-
-    function renderLive(events) {
-      const live = events.filter((e) => LIVE_TYPES.has((e.status?.type || '').toLowerCase()));
-      const list = document.getElementById('live-list');
-      const meta = document.getElementById('live-meta');
-      meta.textContent = `Обновлено: ${new Date().toLocaleTimeString('ru-RU')} · всего live: ${live.length}`;
-      if (!live.length) {
-        list.innerHTML = '<div class="empty">Сейчас матчей нет.</div>';
-        return;
-      }
-      list.innerHTML = live.map(matchRow).join('');
-    }
-
-    function renderTomorrow(events) {
-      const list = document.getElementById('tomorrow-list');
-      const meta = document.getElementById('tomorrow-meta');
-      meta.textContent = `Найдено матчей: ${events.length}`;
-      if (!events.length) {
-        list.innerHTML = '<div class="empty">Завтра по играм пусто.</div>';
-        return;
-      }
-      list.innerHTML = events.map(matchRow).join('');
-    }
-
-    async function loadTomorrowWithCache() {
-      const key = 'tomorrow_cache_v1';
-      const now = Date.now();
-      const ttl = 12 * 60 * 60 * 1000;
-      const cached = localStorage.getItem(key);
-      if (cached) {
-        try {
-          const parsed = JSON.parse(cached);
-          if ((now - parsed.savedAt) < ttl && Array.isArray(parsed.events)) {
-            renderTomorrow(parsed.events);
-            return;
-          }
-        } catch (_) {}
-      }
-
-      const tomorrow = new Date();
-      tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
-      const events = await fetchEvents(ymd(tomorrow));
-      localStorage.setItem(key, JSON.stringify({ savedAt: now, events }));
-      renderTomorrow(events);
-    }
-
-    async function loadLive() {
-      const today = new Date();
-      const events = await fetchEvents(ymd(today));
-      renderLive(events);
-    }
-
-    function parseArticles(text) {
-      return text
-        .split('\n---\n')
-        .map((chunk) => chunk.trim())
-        .filter(Boolean)
-        .map((chunk, idx) => {
-          const lines = chunk.split('\n');
-          const title = (lines.find((l) => l.startsWith('TITLE:')) || '').replace('TITLE:', '').trim() || `Статья ${idx + 1}`;
-          const date = (lines.find((l) => l.startsWith('DATE:')) || '').replace('DATE:', '').trim() || 'без даты';
-          const bodyStart = lines.findIndex((l) => l.startsWith('BODY:'));
-          const body = bodyStart >= 0 ? lines.slice(bodyStart).join('\n').replace('BODY:', '').trim() : '';
-          return { title, date, body };
-        });
-    }
-
-    async function loadArticles() {
-      const list = document.getElementById('articles-list');
+    for (const raw of chunks) {
       try {
-        const res = await fetch('articles.txt?v=' + Date.now());
-        if (!res.ok) throw new Error('no file');
-        const text = await res.text();
-        const items = parseArticles(text);
-        if (!items.length) {
-          list.innerHTML = '<div class="empty">Пока статей нет.</div>';
+        const parsed = JSON.parse(raw.trim());
+        const nodes = normalizeJsonLd(parsed);
+        for (const node of nodes) {
+          const t = String(node?.['@type'] || '').toLowerCase();
+          if (!t.includes('sportsevent') && !t.includes('event')) continue;
+
+          const home = node?.homeTeam?.name || '';
+          const away = node?.awayTeam?.name || '';
+          if (!home || !away) continue;
+
+          const status = String(node?.eventStatus || node?.status || '').toLowerCase();
+          const start = node?.startDate || node?.startTime || '';
+
+          let score = '—';
+          if (typeof node?.name === 'string') {
+            const sm = node.name.match(/(\d+\s*[:\-]\s*\d+)/);
+            if (sm) score = sm[1].replace(/\s+/g, '');
+          }
+
+          matches.push({
+            homeTeam: { name: home },
+            awayTeam: { name: away },
+            status: { type: status, description: status || 'scheduled' },
+            startDate: start,
+            score,
+          });
+        }
+      } catch (_) {}
+    }
+
+    const uniq = new Map();
+    for (const m of matches) {
+      const key = `${m.homeTeam.name}|${m.awayTeam.name}|${m.startDate}`;
+      uniq.set(key, m);
+    }
+    return [...uniq.values()];
+  }
+
+  function isLive(match) {
+    const st = String(match?.status?.type || '').toLowerCase();
+    return st.includes('inprogress') || st.includes('live') || st.includes('ongoing');
+  }
+
+  function matchRow(m) {
+    const time = m.startDate ? moscowTime(m.startDate) : '—';
+    return `
+      <div class="match">
+        <div>
+          <div class="teams">${esc(m.homeTeam?.name)} — ${esc(m.awayTeam?.name)}</div>
+          <div class="meta">${esc(m.status?.description || 'scheduled')} · ${time} МСК</div>
+        </div>
+        <div class="score">${esc(m.score || '—')}</div>
+      </div>
+    `;
+  }
+
+  function renderLive(matches) {
+    const live = matches.filter(isLive);
+    document.getElementById('live-meta').textContent = `Обновлено: ${new Date().toLocaleTimeString('ru-RU')} · live: ${live.length}`;
+    document.getElementById('live-list').innerHTML = live.length ? live.map(matchRow).join('') : '<div class="empty">Сейчас матчей нет.</div>';
+  }
+
+  function renderTomorrow(matches) {
+    document.getElementById('tomorrow-meta').textContent = `Найдено матчей: ${matches.length}`;
+    document.getElementById('tomorrow-list').innerHTML = matches.length ? matches.map(matchRow).join('') : '<div class="empty">Завтра по играм пусто.</div>';
+  }
+
+  async function loadLiveMatches() {
+    const html = await fetchKhlHtml(new Date());
+    const matches = parseKhlMatchesFromHtml(html);
+    renderLive(matches);
+  }
+
+  async function loadTomorrowMatches() {
+    const key = 'khl_tomorrow_cache_v2';
+    const cached = localStorage.getItem(key);
+    const now = Date.now();
+
+    if (cached) {
+      try {
+        const p = JSON.parse(cached);
+        if (now - p.savedAt < UPCOMING_TTL_MS && Array.isArray(p.matches)) {
+          renderTomorrow(p.matches);
           return;
         }
-        list.innerHTML = items.map((a) => `
-          <div class="article">
-            <div class="article-title">${esc(a.title)}</div>
-            <div class="article-date">${esc(a.date)}</div>
-            <div>${esc(a.body)}</div>
-          </div>
-        `).join('');
-      } catch (_) {
-        list.innerHTML = '<div class="empty">Не удалось загрузить articles.txt.</div>';
-      }
+      } catch (_) {}
     }
 
-    function initTabs() {
-      document.querySelectorAll('.tab').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
-          document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
-          btn.classList.add('active');
-          document.getElementById(btn.dataset.tab).classList.add('active');
-        });
+    const tomorrow = new Date();
+    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+    const html = await fetchKhlHtml(tomorrow);
+    const matches = parseKhlMatchesFromHtml(html).filter((m) => !isLive(m));
+    localStorage.setItem(key, JSON.stringify({ savedAt: now, matches }));
+    renderTomorrow(matches);
+  }
+
+  function parseArticles(text) {
+    return text.split('\n---\n').map((c) => c.trim()).filter(Boolean).map((chunk, i) => {
+      const lines = chunk.split('\n');
+      const title = (lines.find((l) => l.startsWith('TITLE:')) || '').replace('TITLE:', '').trim() || `Статья ${i + 1}`;
+      const date = (lines.find((l) => l.startsWith('DATE:')) || '').replace('DATE:', '').trim() || 'без даты';
+      const bodyStart = lines.findIndex((l) => l.startsWith('BODY:'));
+      const body = bodyStart >= 0 ? lines.slice(bodyStart).join('\n').replace('BODY:', '').trim() : '';
+      return { title, date, body };
+    });
+  }
+
+  async function loadArticles() {
+    const list = document.getElementById('articles-list');
+    try {
+      const res = await fetch('articles.txt?v=' + Date.now());
+      if (!res.ok) throw new Error('articles_missing');
+      const items = parseArticles(await res.text());
+      list.innerHTML = items.length ? items.map((a) => `
+        <div class="article">
+          <div class="article-title">${esc(a.title)}</div>
+          <div class="article-date">${esc(a.date)}</div>
+          <div>${esc(a.body)}</div>
+        </div>
+      `).join('') : '<div class="empty">Пока статей нет.</div>';
+    } catch (_) {
+      list.innerHTML = '<div class="empty">Не удалось загрузить articles.txt.</div>';
+    }
+  }
+
+  function initTabs() {
+    document.querySelectorAll('.tab').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
+        document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
       });
-    }
+    });
+  }
 
-    async function boot() {
-      initTabs();
-      await loadArticles();
-      try { await loadTomorrowWithCache(); }
-      catch { document.getElementById('tomorrow-list').innerHTML = '<div class="empty">Ошибка загрузки матчей на завтра.</div>'; }
+  async function boot() {
+    initTabs();
+    await loadArticles();
 
-      const safeLoadLive = async () => {
-        try { await loadLive(); }
-        catch { document.getElementById('live-list').innerHTML = '<div class="empty">Ошибка загрузки live-матчей.</div>'; }
-      };
-      await safeLoadLive();
-      setInterval(safeLoadLive, 15000);
-    }
+    try { await loadTomorrowMatches(); }
+    catch { document.getElementById('tomorrow-list').innerHTML = '<div class="empty">Ошибка загрузки матчей на завтра.</div>'; }
 
-    boot();
-  </script>
+    const pollLive = async () => {
+      try { await loadLiveMatches(); }
+      catch { document.getElementById('live-list').innerHTML = '<div class="empty">Ошибка загрузки live-матчей КХЛ.</div>'; }
+    };
+
+    await pollLive();
+    setInterval(pollLive, LIVE_REFRESH_MS);
+  }
+
+  boot();
+</script>
 </body>
 </html>
