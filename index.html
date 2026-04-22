@@ -1,440 +1,279 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hockey Feed</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KHL / VHL Web App</title>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --ice: #e8f4f8;
-      --ice-dark: #c5dde8;
-      --rink: #0a1628;
-      --rink-mid: #112240;
-      --blue: #1565c0;
-      --red: #c62828;
-      --gold: #f9a825;
-      --text: #0a1628;
-      --muted: #546e7a;
-      --card-bg: #ffffff;
+      --bg: #0b1220;
+      --card: #131d33;
+      --line: #23314f;
+      --text: #e9eef9;
+      --muted: #99a7c2;
+      --accent: #34c3ff;
+      --danger: #ff6262;
+      --ok: #33d17a;
     }
-
+    * { box-sizing: border-box; }
     body {
-      font-family: 'Barlow', sans-serif;
-      background: var(--rink);
-      color: var(--ice);
-      min-height: 100vh;
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
     }
-
-    /* ── Header ── */
-    header {
-      background: var(--rink);
-      border-bottom: 3px solid var(--red);
-      padding: 0 24px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-    }
-
-    .logo {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 800;
-      font-size: 26px;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo-puck {
-      width: 28px;
-      height: 28px;
-      background: #fff;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .logo-puck svg { width: 16px; height: 16px; }
-
-    .logo-accent { color: var(--red); }
-
-    .header-date {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 13px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--ice-dark);
-      opacity: 0.7;
-    }
-
-    /* ── Hero banner ── */
-    .hero {
-      background: linear-gradient(135deg, var(--rink-mid) 0%, #0d1f3c 100%);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      padding: 40px 24px 32px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 30px,
-        rgba(255,255,255,0.015) 30px,
-        rgba(255,255,255,0.015) 31px
-      );
-    }
-
-    .hero-label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 10px;
-    }
-
-    .hero-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 800;
-      font-size: clamp(36px, 6vw, 64px);
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      line-height: 1;
-      color: #fff;
-      position: relative;
-    }
-
-    .hero-sub {
-      margin-top: 10px;
-      font-size: 15px;
-      color: var(--ice-dark);
-      opacity: 0.7;
-      position: relative;
-    }
-
-    /* ── Layout ── */
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 40px 24px 80px;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-
-    .section-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 700;
-      font-size: 18px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #fff;
-    }
-
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: rgba(255,255,255,0.1);
-    }
-
-    .section-count {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 13px;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-    }
-
-    /* ── Cards grid ── */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: var(--rink-mid);
-      border: 1px solid rgba(255,255,255,0.07);
+    .container { max-width: 920px; margin: 0 auto; padding: 16px; }
+    .title { font-size: 24px; font-weight: 800; margin-bottom: 2px; }
+    .subtitle { color: var(--muted); margin-bottom: 14px; }
+    .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .tab {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--line);
       border-radius: 12px;
-      overflow: hidden;
-      transition: transform 0.2s, border-color 0.2s;
-      cursor: default;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(198,40,40,0.5);
-    }
-
-    .card-tag-bar {
-      padding: 12px 16px 0;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .tag {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 4px;
-    }
-
-    .tag-news  { background: rgba(198,40,40,0.2); color: #ef9a9a; }
-    .tag-match { background: rgba(21,101,192,0.3); color: #90caf9; }
-    .tag-transfer { background: rgba(249,168,37,0.2); color: #ffe082; }
-    .tag-rumor { background: rgba(255,255,255,0.08); color: #b0bec5; }
-
-    .card-time {
-      margin-left: auto;
-      font-size: 11px;
-      color: var(--muted);
-      font-family: 'Barlow Condensed', sans-serif;
-      letter-spacing: 0.05em;
-    }
-
-    .card-body {
-      padding: 14px 16px 18px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .card-title {
-      font-family: 'Barlow Condensed', sans-serif;
+      padding: 12px;
       font-weight: 700;
-      font-size: 19px;
-      line-height: 1.25;
-      color: #fff;
-      letter-spacing: 0.01em;
+      cursor: pointer;
     }
-
-    .card-text {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #90a4ae;
-      flex: 1;
+    .tab.active { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(52,195,255,0.2) inset; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
     }
-
-    .card-source {
-      margin-top: 10px;
-      font-size: 12px;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .card-source::before {
-      content: '';
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--red);
-      flex-shrink: 0;
-    }
-
-    /* ── Featured (first card) ── */
-    .card.featured {
-      grid-column: 1 / -1;
-      flex-direction: row;
-      max-height: 220px;
-    }
-
-    .card.featured .card-tag-bar { padding: 18px 20px 0; flex-direction: column; align-items: flex-start; gap: 4px; width: 50%; }
-    .card.featured .card-body { padding: 14px 20px 20px; width: 50%; }
-    .card.featured .card-title { font-size: 26px; }
-    .card.featured .card-text { font-size: 15px; }
-
-    @media (max-width: 600px) {
-      .card.featured { flex-direction: column; max-height: none; }
-      .card.featured .card-tag-bar,
-      .card.featured .card-body { width: 100%; }
-    }
-
-    /* ── Empty state ── */
-    .empty {
-      text-align: center;
-      padding: 80px 20px;
-      color: var(--muted);
-    }
-
-    .empty-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
-      opacity: 0.4;
-    }
-
-    .empty-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 22px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.3);
-      margin-bottom: 8px;
-    }
-
-    .empty-sub { font-size: 14px; opacity: 0.6; }
-
-    /* ── Loading ── */
-    .loading {
-      text-align: center;
-      padding: 60px;
-      color: var(--muted);
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 16px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
-    .loading { animation: pulse 1.4s ease-in-out infinite; }
+    .card h2 { margin: 0 0 10px; font-size: 18px; }
+    .meta { color: var(--muted); font-size: 13px; }
+    .status-live { color: var(--ok); font-weight: 700; }
+    .status-finished { color: var(--danger); font-weight: 700; }
+    .match { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); }
+    .match:first-child { border-top: 0; padding-top: 0; }
+    .teams { font-weight: 600; }
+    .score { font-weight: 800; }
+    .empty { color: var(--muted); }
+    .article { padding: 10px 0; border-top: 1px solid var(--line); }
+    .article:first-child { border-top: 0; padding-top: 0; }
+    .article-title { font-weight: 700; margin-bottom: 4px; }
+    .article-date { color: var(--muted); font-size: 12px; margin-bottom: 6px; }
+    .small { font-size: 12px; color: var(--muted); }
   </style>
 </head>
 <body>
+  <div class="container">
+    <div class="title">Новости КХЛ и ВХЛ</div>
+    <div class="subtitle">MSK · live-обновление каждые 15 секунд</div>
 
-<header>
-  <div class="header-inner">
-    <div class="logo">
-      <div class="logo-puck">
-        <svg viewBox="0 0 16 16" fill="none">
-          <ellipse cx="8" cy="8" rx="7" ry="5" fill="#111"/>
-          <ellipse cx="8" cy="8" rx="5" ry="3.5" fill="#222"/>
-        </svg>
-      </div>
-      Hockey<span class="logo-accent">Feed</span>
+    <div class="tabs">
+      <button class="tab active" data-tab="home">Главная</button>
+      <button class="tab" data-tab="about">О нас</button>
     </div>
-    <div class="header-date" id="header-date"></div>
+
+    <section id="home" class="screen active">
+      <div class="card">
+        <h2>Матчи идут сейчас</h2>
+        <div id="live-meta" class="meta">Загрузка…</div>
+        <div id="live-list"></div>
+      </div>
+
+      <div class="card">
+        <h2>Матчи на завтра</h2>
+        <div id="tomorrow-meta" class="meta">Загрузка…</div>
+        <div id="tomorrow-list"></div>
+      </div>
+
+      <div class="card">
+        <h2>Статьи из GitHub (articles.txt)</h2>
+        <div id="articles-list"></div>
+      </div>
+    </section>
+
+    <section id="about" class="screen">
+      <div class="card">
+        <h2>О нас</h2>
+        <p>Это Telegram Web App для оперативного освещения КХЛ и ВХЛ.</p>
+        <p>Показываем матчи, которые идут прямо сейчас, и расписание на завтра.</p>
+        <p>Время отображается по Москве (MSK).</p>
+      </div>
+      <div class="small">Источники данных: публичный API SofaScore + статьи из репозитория (articles.txt).</div>
+    </section>
   </div>
-</header>
 
-<div class="hero">
-  <div class="hero-label">Хоккейные новости</div>
-  <div class="hero-title">На льду и&nbsp;за&nbsp;бортом</div>
-  <div class="hero-sub">Последние события</div>
-</div>
+  <script>
+    const TARGET_LEAGUES = ['khl', 'вхл', 'vhl'];
+    const LIVE_TYPES = new Set(['inprogress', '1st_period', '2nd_period', '3rd_period', 'overtime', 'after_penalties', 'break']);
+    const API_BASE = 'https://www.sofascore.com/api/v1/sport/ice-hockey/scheduled-events/';
 
-<main>
-  <div class="section-header">
-    <span class="section-title">Лента новостей</span>
-    <div class="section-line"></div>
-    <span class="section-count" id="post-count"></span>
-  </div>
-  <div id="feed" class="cards-grid">
-    <div class="loading">Загрузка постов…</div>
-  </div>
-</main>
+    function moscowTime(ts) {
+      return new Intl.DateTimeFormat('ru-RU', {
+        timeZone: 'Europe/Moscow',
+        hour: '2-digit',
+        minute: '2-digit'
+      }).format(new Date(ts * 1000));
+    }
 
-<script>
-  // Дата в шапке
-  document.getElementById('header-date').textContent =
-    new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+    function ymd(d) {
+      return d.toISOString().slice(0, 10);
+    }
 
-  const TAG_LABELS = {
-    news: { label: 'Новость', cls: 'tag-news' },
-    match: { label: 'Матч', cls: 'tag-match' },
-    transfer: { label: 'Трансфер', cls: 'tag-transfer' },
-    rumor: { label: 'Слухи', cls: 'tag-rumor' },
-  };
+    function byLeague(event) {
+      const names = [
+        event?.tournament?.name,
+        event?.tournament?.uniqueTournament?.name,
+        event?.season?.name,
+      ].filter(Boolean).join(' ').toLowerCase();
+      return TARGET_LEAGUES.some((key) => names.includes(key));
+    }
 
-  function timeAgo(isoString) {
-    const diff = Math.floor((Date.now() - new Date(isoString)) / 60000);
-    if (diff < 1) return 'только что';
-    if (diff < 60) return `${diff} мин назад`;
-    const h = Math.floor(diff / 60);
-    if (h < 24) return `${h} ч назад`;
-    return `${Math.floor(h / 24)} д назад`;
-  }
+    function scoreText(event) {
+      const hs = event?.homeScore?.current;
+      const as = event?.awayScore?.current;
+      if (Number.isFinite(hs) && Number.isFinite(as)) return `${hs}:${as}`;
+      return '—';
+    }
 
-  function renderCard(post, index) {
-    const tag = TAG_LABELS[post.tag] || TAG_LABELS.news;
-    const featured = index === 0 ? 'featured' : '';
-    return `
-      <article class="card ${featured}">
-        <div class="card-tag-bar">
-          <span class="tag ${tag.cls}">${tag.label}</span>
-          <span class="card-time">${timeAgo(post.created_at)}</span>
+    function matchRow(event) {
+      const statusType = event?.status?.type || '';
+      const statusText = event?.status?.description || statusType || 'scheduled';
+      return `
+        <div class="match">
+          <div>
+            <div class="teams">${esc(event.homeTeam?.name)} — ${esc(event.awayTeam?.name)}</div>
+            <div class="meta">${esc(statusText)} · ${moscowTime(event.startTimestamp)} МСК</div>
+          </div>
+          <div class="score">${esc(scoreText(event))}</div>
         </div>
-        <div class="card-body">
-          <h2 class="card-title">${escHtml(post.title)}</h2>
-          <p class="card-text">${escHtml(post.body)}</p>
-          <div class="card-source">Источник: ${escHtml(post.source || 'Telegram-канал команды')}</div>
-        </div>
-      </article>`;
-  }
+      `;
+    }
 
-  function escHtml(str) {
-    return String(str ?? '')
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
+    function esc(v) {
+      return String(v ?? '').replace(/[&<>"']/g, (s) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[s]));
+    }
 
-  async function loadPosts() {
-    const feed = document.getElementById('feed');
-    try {
-      const res = await fetch('posts.json?v=' + Date.now());
-      if (!res.ok) throw new Error('not found');
-      const posts = await res.json();
+    async function fetchEvents(dateStr) {
+      const res = await fetch(API_BASE + dateStr, { cache: 'no-store' });
+      if (!res.ok) throw new Error('api');
+      const data = await res.json();
+      return (data.events || []).filter(byLeague);
+    }
 
-      if (!posts.length) {
-        feed.innerHTML = `
-          <div class="empty" style="grid-column:1/-1">
-            <div class="empty-icon">🏒</div>
-            <div class="empty-title">Постов пока нет</div>
-            <div class="empty-sub">Напишите новость в Telegram-канал — она появится здесь автоматически</div>
-          </div>`;
+    function renderLive(events) {
+      const live = events.filter((e) => LIVE_TYPES.has((e.status?.type || '').toLowerCase()));
+      const list = document.getElementById('live-list');
+      const meta = document.getElementById('live-meta');
+      meta.textContent = `Обновлено: ${new Date().toLocaleTimeString('ru-RU')} · всего live: ${live.length}`;
+      if (!live.length) {
+        list.innerHTML = '<div class="empty">Сейчас матчей нет.</div>';
         return;
       }
-
-      document.getElementById('post-count').textContent = posts.length + ' материалов';
-      feed.innerHTML = posts
-        .sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
-        .map(renderCard)
-        .join('');
-    } catch {
-      feed.innerHTML = `
-        <div class="empty" style="grid-column:1/-1">
-          <div class="empty-icon">🏒</div>
-          <div class="empty-title">Постов пока нет</div>
-        </div>`;
+      list.innerHTML = live.map(matchRow).join('');
     }
-  }
 
-  loadPosts();
-</script>
+    function renderTomorrow(events) {
+      const list = document.getElementById('tomorrow-list');
+      const meta = document.getElementById('tomorrow-meta');
+      meta.textContent = `Найдено матчей: ${events.length}`;
+      if (!events.length) {
+        list.innerHTML = '<div class="empty">Завтра по играм пусто.</div>';
+        return;
+      }
+      list.innerHTML = events.map(matchRow).join('');
+    }
+
+    async function loadTomorrowWithCache() {
+      const key = 'tomorrow_cache_v1';
+      const now = Date.now();
+      const ttl = 12 * 60 * 60 * 1000;
+      const cached = localStorage.getItem(key);
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached);
+          if ((now - parsed.savedAt) < ttl && Array.isArray(parsed.events)) {
+            renderTomorrow(parsed.events);
+            return;
+          }
+        } catch (_) {}
+      }
+
+      const tomorrow = new Date();
+      tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+      const events = await fetchEvents(ymd(tomorrow));
+      localStorage.setItem(key, JSON.stringify({ savedAt: now, events }));
+      renderTomorrow(events);
+    }
+
+    async function loadLive() {
+      const today = new Date();
+      const events = await fetchEvents(ymd(today));
+      renderLive(events);
+    }
+
+    function parseArticles(text) {
+      return text
+        .split('\n---\n')
+        .map((chunk) => chunk.trim())
+        .filter(Boolean)
+        .map((chunk, idx) => {
+          const lines = chunk.split('\n');
+          const title = (lines.find((l) => l.startsWith('TITLE:')) || '').replace('TITLE:', '').trim() || `Статья ${idx + 1}`;
+          const date = (lines.find((l) => l.startsWith('DATE:')) || '').replace('DATE:', '').trim() || 'без даты';
+          const bodyStart = lines.findIndex((l) => l.startsWith('BODY:'));
+          const body = bodyStart >= 0 ? lines.slice(bodyStart).join('\n').replace('BODY:', '').trim() : '';
+          return { title, date, body };
+        });
+    }
+
+    async function loadArticles() {
+      const list = document.getElementById('articles-list');
+      try {
+        const res = await fetch('articles.txt?v=' + Date.now());
+        if (!res.ok) throw new Error('no file');
+        const text = await res.text();
+        const items = parseArticles(text);
+        if (!items.length) {
+          list.innerHTML = '<div class="empty">Пока статей нет.</div>';
+          return;
+        }
+        list.innerHTML = items.map((a) => `
+          <div class="article">
+            <div class="article-title">${esc(a.title)}</div>
+            <div class="article-date">${esc(a.date)}</div>
+            <div>${esc(a.body)}</div>
+          </div>
+        `).join('');
+      } catch (_) {
+        list.innerHTML = '<div class="empty">Не удалось загрузить articles.txt.</div>';
+      }
+    }
+
+    function initTabs() {
+      document.querySelectorAll('.tab').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
+          document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById(btn.dataset.tab).classList.add('active');
+        });
+      });
+    }
+
+    async function boot() {
+      initTabs();
+      await loadArticles();
+      try { await loadTomorrowWithCache(); }
+      catch { document.getElementById('tomorrow-list').innerHTML = '<div class="empty">Ошибка загрузки матчей на завтра.</div>'; }
+
+      const safeLoadLive = async () => {
+        try { await loadLive(); }
+        catch { document.getElementById('live-list').innerHTML = '<div class="empty">Ошибка загрузки live-матчей.</div>'; }
+      };
+      await safeLoadLive();
+      setInterval(safeLoadLive, 15000);
+    }
+
+    boot();
+  </script>
 </body>
 </html>
